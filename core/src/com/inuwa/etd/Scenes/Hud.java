@@ -1,4 +1,4 @@
-package com.inuwa.etd.Scenes;
+/*package com.inuwa.etd.Scenes;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -57,3 +57,4 @@ public class Hud {
 
     }
 }
+*/

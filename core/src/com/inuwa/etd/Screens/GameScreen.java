@@ -1,4 +1,4 @@
-package com.inuwa.etd.Screens;
+/*package com.inuwa.etd.Screens;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -96,3 +96,4 @@ public class GameScreen implements Screen {
 
     }
 }
+*/
