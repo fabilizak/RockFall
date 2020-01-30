@@ -20,9 +20,10 @@ public class StartState extends State {
     public StartState(StateManager stateManager) {
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        //System.out.println(camera.viewportWidth + " " + camera.viewportHeight);
         playBtnTex = new Texture("playBtn.png");
         playBtnTexReg = new TextureRegion(playBtnTex, playBtnTex.getWidth(), playBtnTex.getHeight());
-        playBtn = new Button(camera.position.x - btnWidth/2, camera.position.y, btnWidth, btnHeight, playBtnTexReg, playBtnTexReg);
+        playBtn = new Button(camera.position.x - btnWidth/2, camera.position.y,"menu", playBtnTexReg, playBtnTexReg);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class StartState extends State {
         if (Gdx.input.justTouched()){
             touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
-            if (playBtn.isClicked(touchPos.x, touchPos.y)) {
+            if (playBtn.isPresssed(touchPos.x, touchPos.y)) {
                 stateManager.set(new GameState(stateManager));
                 dispose();
             }

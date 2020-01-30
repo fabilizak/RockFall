@@ -11,22 +11,33 @@ public class Joe {
     private Vector3 position;
     private Vector3 velocity;
     public static float playerOffset;
-
     private Texture joe;
+    private boolean canJump = true, canMove = true;
+    public float speed = 500;
+    private Ground ground;
+    private static int posGroundTop;
 
     public Joe(float x, float y){
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0, 0);
         joe = new Texture("joe.png");
-        playerOffset = 20 + 2 * 10 + 2 * Gdx.graphics.getHeight()/25;
+        ground = new Ground();
+        posGroundTop = 40 + 2 * Button.GAME_BUTTON_HEIGHT;
     }
 
     public void update(float deltaTime){
         velocity.add(0, GRAVITY, 0);
         velocity.scl(deltaTime);
-        position.add(0, velocity.y, 0);
-            if (position.y < playerOffset)
-                position.y = playerOffset;
+        position.add(velocity.x, velocity.y, 0);
+            if (position.y < posGroundTop) {
+                position.y = posGroundTop;
+                canJump = true;
+                canMove = true;
+            }
+            if (canJump)
+                velocity.x = 0;
+            checkLeftBounds();
+            checkRightBounds();
         velocity.scl(1/deltaTime);
     }
 
@@ -47,26 +58,56 @@ public class Joe {
                 moveRight();
                 break;
             case "upLeft":
-                velocity.y = 250;
-                moveLeft();
+                jumpLeft();
                 break;
             case "upRight":
-                velocity.y = 250;
-                moveRight();
+                jumpRight();
                 break;
+            case "stop":
+                velocity.x = 0;
 
         }
     }
 
     public void moveLeft(){
-        position.x += -10;
+        if (canMove)
+            velocity.x += -speed;
+    }
+
+    public void moveRight(){
+        if (canMove)
+            velocity.x += speed;
+    }
+
+    public void jumpLeft(){
+        if (canJump){
+            velocity.y = 250;
+            velocity.x = -100;
+            canJump = false;
+            canMove = false;
+        }
+    }
+
+    public void jumpRight(){
+        if (canJump){
+            velocity.y = 250;
+            velocity.x = 100;
+            canJump = false;
+            canMove = false;
+        }
+    }
+
+    private void checkLeftBounds(){
         if (position.x < 0)
             position.x = 0;
     }
 
-    public void moveRight(){
-        position.x += 10;
+    private void checkRightBounds(){
         if(position.x > Gdx.graphics.getWidth()/2 - JOE_WIDTH)
             position.x = Gdx.graphics.getWidth()/2 - JOE_WIDTH;
+    }
+
+    public static int getPosGroundTop() {
+        return posGroundTop;
     }
 }
