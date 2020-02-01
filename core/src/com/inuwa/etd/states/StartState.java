@@ -20,7 +20,7 @@ public class StartState extends State {
     public StartState(StateManager stateManager) {
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        //System.out.println(camera.viewportWidth + " " + camera.viewportHeight);
+        System.out.println(camera.viewportWidth + " " + camera.viewportHeight);
         playBtnTex = new Texture("playBtn.png");
         playBtnTexReg = new TextureRegion(playBtnTex, playBtnTex.getWidth(), playBtnTex.getHeight());
         playBtn = new Button(camera.position.x - btnWidth/2, camera.position.y,"menu", playBtnTexReg, playBtnTexReg);

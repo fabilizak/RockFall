@@ -9,6 +9,10 @@ import com.inuwa.etd.EscapeTheDungeon;
 import com.inuwa.etd.sprites.Button;
 import com.inuwa.etd.sprites.Ground;
 import com.inuwa.etd.sprites.Joe;
+import com.inuwa.etd.sprites.Rock;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameState extends State {
@@ -27,6 +31,7 @@ public class GameState extends State {
     private Button rightJumpButton;
     private Vector3 touchPos;
     private Ground ground;
+    private List<Rock> rockList;
     //private Texture darkMoveButtons;
     //private TextureRegion darkLB;
     //private TextureRegion darkRB;
@@ -36,7 +41,7 @@ public class GameState extends State {
     protected GameState(StateManager stateManager) {
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        joe = new Joe(camera.position.x - Joe.JOE_WIDTH/2, 500);
+        joe = new Joe(camera.position.x - Joe.JOE_WIDTH/2, Joe.getPosGroundTop());
         ground = new Ground();
         moveButtons = new Texture("moveButtons.png");
         //darkMoveButtons = new Texture("darkMoveButtons.png");
@@ -52,6 +57,8 @@ public class GameState extends State {
         rightButton = new Button((camera.viewportWidth - moveBtnWidth) - 10,10,"game", rightBtnTex, rightBtnTex);
         leftJumpButton = new Button( 10, 10 + moveBtnHeight + 10,"game", leftJumpBtnTex, leftJumpBtnTex);
         rightJumpButton = new Button((camera.viewportWidth - moveBtnWidth) - 10, 10 + moveBtnHeight + 10,"game", rightJumpBtnTex, rightJumpBtnTex);
+        rockList = new ArrayList<>();
+        generateRock();
     }
 
     @Override
@@ -74,6 +81,9 @@ public class GameState extends State {
     public void update(float deltaTime) {
         handleInput();
         joe.update(deltaTime);
+        for (Rock rock : rockList){
+            rock.update(deltaTime);
+        }
     }
 
     @Override
@@ -88,11 +98,17 @@ public class GameState extends State {
         rightButton.draw(spriteBatch);
         leftJumpButton.draw(spriteBatch);
         rightJumpButton.draw(spriteBatch);
+        for (Rock rock : rockList)
+            spriteBatch.draw(rock.getRockTexture(), rock.getRockPos().x, rock.getRockPos().y, rock.getRockWidth(), rock.getRockHeight());
         spriteBatch.end();
     }
 
     @Override
     public void dispose() {
         moveButtons.dispose();
+    }
+
+    public void generateRock(){
+        rockList.add(new Rock(camera));
     }
 }
