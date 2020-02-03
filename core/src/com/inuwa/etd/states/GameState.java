@@ -32,6 +32,7 @@ public class GameState extends State {
     private Vector3 touchPos;
     private Ground ground;
     private List<Rock> rockList;
+    private Rock currentRock;
     //private Texture darkMoveButtons;
     //private TextureRegion darkLB;
     //private TextureRegion darkRB;
@@ -81,9 +82,10 @@ public class GameState extends State {
     public void update(float deltaTime) {
         handleInput();
         joe.update(deltaTime);
-        for (Rock rock : rockList){
-            rock.update(deltaTime);
-        }
+        currentRock = rockList.get(rockList.size() - 1);
+        currentRock.update(deltaTime, rockList);
+        if (currentRock.isTouchedGround())
+            generateRock();
     }
 
     @Override

@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Rock {
@@ -19,6 +21,7 @@ public class Rock {
     private float rockWidth;
     private float rockHeight;
     private Texture myRockTexture;
+    private boolean touchedGround;
 
     public Rock(OrthographicCamera camera){
         this.camera = camera;
@@ -33,12 +36,15 @@ public class Rock {
 
         rockPos = new Vector3(randX.nextInt(7) * rockWidth, camera.viewportHeight - rockHeight, 0 );
         generateTexture(randTex.nextInt(3));
+        touchedGround = false;
     }
 
-    public void update(float deltaTime){
+    public void update(float deltaTime, List rockList){
         velocity.add(0, Joe.GRAVITY, 0);
         velocity.scl(deltaTime);
         rockPos.add(0, velocity.y, 0);
+        if (rockPos.y < Joe.getPosGroundTop())
+            touchedGround = true;
         velocity.scl(1/deltaTime);
     }
 
@@ -70,5 +76,9 @@ public class Rock {
 
     public Texture getRockTexture() {
         return myRockTexture;
+    }
+
+    public boolean isTouchedGround() {
+        return touchedGround;
     }
 }
