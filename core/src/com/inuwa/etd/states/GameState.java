@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.inuwa.etd.EscapeTheDungeon;
 import com.inuwa.etd.sprites.Button;
@@ -82,8 +83,12 @@ public class GameState extends State {
     public void update(float deltaTime) {
         handleInput();
         joe.update(deltaTime);
+
         currentRock = rockList.get(rockList.size() - 1);
-        currentRock.update(deltaTime, rockList);
+        currentRock.update(deltaTime);
+        if (rockCollides(currentRock)) {
+            generateRock();
+        }
         if (currentRock.isTouchedGround())
             generateRock();
     }
@@ -112,5 +117,16 @@ public class GameState extends State {
 
     public void generateRock(){
         rockList.add(new Rock(camera));
+    }
+
+    public boolean rockCollides(Rock currentRock){
+        for(int i = 0; i < rockList.size()-1; i++){
+            Rock rockFromList = rockList.get(i);
+            if (currentRock.getBounds().overlaps(rockFromList.getBounds())) {
+                currentRock.setRockPos(rockFromList.getRockPos().y + rockFromList.getRockHeight());
+                return true;
+            }
+        }
+        return false;
     }
 }

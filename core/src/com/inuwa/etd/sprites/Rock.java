@@ -2,10 +2,9 @@ package com.inuwa.etd.sprites;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Rock {
@@ -22,6 +21,7 @@ public class Rock {
     private float rockHeight;
     private Texture myRockTexture;
     private boolean touchedGround;
+    private Rectangle bounds;
 
     public Rock(OrthographicCamera camera){
         this.camera = camera;
@@ -37,14 +37,20 @@ public class Rock {
         rockPos = new Vector3(randX.nextInt(7) * rockWidth, camera.viewportHeight - rockHeight, 0 );
         generateTexture(randTex.nextInt(3));
         touchedGround = false;
+
+        bounds = new Rectangle(rockPos.x, rockPos.y, rockWidth, rockHeight);
     }
 
-    public void update(float deltaTime, List rockList){
+    public void update(float deltaTime){
         velocity.add(0, Joe.GRAVITY, 0);
         velocity.scl(deltaTime);
         rockPos.add(0, velocity.y, 0);
-        if (rockPos.y < Joe.getPosGroundTop())
+        bounds.setPosition(rockPos.x, rockPos.y);
+        if (rockPos.y <= Joe.getPosGroundTop()){
+            rockPos.y = Joe.getPosGroundTop();
+            bounds.setPosition(rockPos.x, rockPos.y);
             touchedGround = true;
+        }
         velocity.scl(1/deltaTime);
     }
 
@@ -66,6 +72,11 @@ public class Rock {
         return rockPos;
     }
 
+    public void setRockPos(float y){
+        this.rockPos.y = y;
+        this.bounds.y = y;
+    }
+
     public float getRockWidth() {
         return rockWidth;
     }
@@ -80,5 +91,9 @@ public class Rock {
 
     public boolean isTouchedGround() {
         return touchedGround;
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
     }
 }
