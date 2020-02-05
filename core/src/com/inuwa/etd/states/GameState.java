@@ -34,6 +34,7 @@ public class GameState extends State {
     private Ground ground;
     private List<Rock> rockList;
     private Rock currentRock;
+    private Vector3 oldJoePos;
     //private Texture darkMoveButtons;
     //private TextureRegion darkLB;
     //private TextureRegion darkRB;
@@ -43,7 +44,9 @@ public class GameState extends State {
     protected GameState(StateManager stateManager) {
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        joe = new Joe(camera.position.x - Joe.JOE_WIDTH/2, Joe.getPosGroundTop());
+        joe = new Joe(camera);
+        oldJoePos = new Vector3();
+        oldJoePos.set(joe.getPosition());
         ground = new Ground();
         moveButtons = new Texture("moveButtons.png");
         //darkMoveButtons = new Texture("darkMoveButtons.png");
@@ -82,7 +85,9 @@ public class GameState extends State {
     @Override
     public void update(float deltaTime) {
         handleInput();
+        oldJoePos.set(joe.getPosition());
         joe.update(deltaTime);
+        joeCollides(joe);
 
         currentRock = rockList.get(rockList.size() - 1);
         currentRock.update(deltaTime);
@@ -100,7 +105,7 @@ public class GameState extends State {
         spriteBatch.begin();
         spriteBatch.draw(EscapeTheDungeon.background.getBackground(), 0, camera.position.y - camera.viewportHeight/2, camera.viewportWidth, camera.viewportHeight);
         spriteBatch.draw(ground.getTexture(),0,0, camera.viewportWidth, Joe.getPosGroundTop());
-        spriteBatch.draw(joe.getTexture(), joe.getPosition().x, joe.getPosition().y, Joe.JOE_WIDTH, Joe.JOE_HEIGHT);
+        spriteBatch.draw(joe.getTexture(), joe.getPosition().x, joe.getPosition().y, joe.getJoeWidth(), joe.getJoeHeight());
         leftButton.draw(spriteBatch);
         rightButton.draw(spriteBatch);
         leftJumpButton.draw(spriteBatch);
@@ -128,5 +133,39 @@ public class GameState extends State {
             }
         }
         return false;
+    }
+
+    public void joeCollides(Joe joe){
+        Rectangle joeBounds = joe.getBounds();
+        for (Rock rockFromList : rockList){
+            Rectangle rockBounds = rockFromList.getBounds();
+            /*if (joeBounds.overlaps(rockBounds)){
+                if (joeBounds.x == (rockBounds.x + rockFromList.getRockWidth()) || (joeBounds.x + Joe.JOE_WIDTH) == rockBounds.x) {
+                    joe.setPosition(oldJoePos);
+                    joe.setXVelocity(0);
+                }
+                if (joeBounds.y == (rockBounds.y + rockFromList.getRockHeight()))
+                    joe.setYPosition(rockBounds.y + rockFromList.getRockHeight());
+            }*/
+            /*if (joeBounds.y < (rockBounds.y + rockFromList.getRockHeight()) && joeBounds.x >= (rockBounds.x - Joe.JOE_WIDTH/2)
+                    && joeBounds.x <= (rockBounds.x + Joe.JOE_WIDTH/2))
+                joe.setYPosition(rockBounds.y + rockFromList.getRockHeight());*/
+            if (joeBounds.overlaps(rockBounds)){
+                if (oldJoePos.x >= (rockBounds.x + rockFromList.getRockWidth()) && oldJoePos.y < (rockBounds.y + rockFromList.getRockHeight())) {
+                    joe.setPosition((rockBounds.x + rockFromList.getRockWidth()), oldJoePos.y);
+                    joe.setXVelocity(0);
+                }
+                if ((oldJoePos.x + joe.getJoeWidth()) <= rockBounds.x && oldJoePos.y < (rockBounds.y + rockFromList.getRockHeight())){
+                    joe.setPosition((rockBounds.x - joe.getJoeWidth()), oldJoePos.y);
+                    joe.setXVelocity(0);
+                }
+
+                if (oldJoePos.y >= (rockBounds.y + rockFromList.getRockHeight())){
+                    joe.setYPosition(rockBounds.y + rockFromList.getRockHeight());
+                    joe.setCanJump(true);
+                    joe.setCanMove(true);
+                }
+            }
+        }
     }
 }

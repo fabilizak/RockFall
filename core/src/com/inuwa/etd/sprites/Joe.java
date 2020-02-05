@@ -1,24 +1,31 @@
 package com.inuwa.etd.sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class Joe {
     public static final int GRAVITY = -10;
-    public static final int JOE_WIDTH = 60;
-    public static final int JOE_HEIGHT = 100;
+    //public static final int JOE_WIDTH = 60;
+    //public static final int JOE_HEIGHT = 100;
+    private float joeWidth;
+    private float joeHeight;
     private Vector3 position;
     private Vector3 velocity;
-    public static float playerOffset;
     private Texture joe;
-    private boolean canJump = true, canMove = true;
+    private boolean canJump = true, canMove = true, wouldCollide = false;
     public float speed = 500;
     private Ground ground;
     private static int posGroundTop;
+    private Rectangle bounds;
 
-    public Joe(float x, float y){
-        position = new Vector3(x, y, 0);
+    public Joe(OrthographicCamera camera){
+        joeWidth = camera.viewportWidth/7;
+        joeHeight = (joeWidth + joeWidth/4);
+        position = new Vector3((camera.viewportWidth/2 - joeWidth/2), posGroundTop, 0);
+        bounds = new Rectangle(position.x, position.y, joeWidth, joeHeight);
         velocity = new Vector3(0, 0, 0);
         joe = new Texture("joe.png");
         ground = new Ground();
@@ -26,7 +33,8 @@ public class Joe {
     }
 
     public void update(float deltaTime){
-        velocity.add(0, GRAVITY, 0);
+        if (canJump == false)
+            velocity.add(0, GRAVITY, 0);
         velocity.scl(deltaTime);
         position.add(velocity.x, velocity.y, 0);
             if (position.y < posGroundTop) {
@@ -38,6 +46,7 @@ public class Joe {
                 velocity.x = 0;
             checkLeftBounds();
             checkRightBounds();
+            bounds.setPosition(position.x, position.y);
         velocity.scl(1/deltaTime);
     }
 
@@ -98,16 +107,61 @@ public class Joe {
     }
 
     private void checkLeftBounds(){
-        if (position.x < 0)
+        if (position.x < 0) {
             position.x = 0;
+            bounds.x = position.x;
+        }
     }
 
     private void checkRightBounds(){
-        if(position.x > Gdx.graphics.getWidth()/2 - JOE_WIDTH)
-            position.x = Gdx.graphics.getWidth()/2 - JOE_WIDTH;
+        if(position.x > Gdx.graphics.getWidth()/2 - joeWidth) {
+            position.x = Gdx.graphics.getWidth() / 2 - joeWidth;
+            bounds.x = position.x;
+        }
     }
 
     public static int getPosGroundTop() {
         return posGroundTop;
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
+
+    public void setPosition(Vector3 position) {
+        this.position = position;
+        this.bounds.setPosition(position.x, position.y);
+    }
+
+    public void setPosition(float x, float y){
+        this.position.x = x;
+        this.position.y = y;
+        this.bounds.x = x;
+        this.bounds.y = y;
+    }
+
+    public void setYPosition(float y){
+        this.position.y = y;
+        this.bounds.y = y;
+    }
+
+    public void setXVelocity(float value) {
+        this.velocity.x = value;
+    }
+
+    public void setCanJump(boolean canJump) {
+        this.canJump = canJump;
+    }
+
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
+    }
+
+    public float getJoeWidth() {
+        return joeWidth;
+    }
+
+    public float getJoeHeight() {
+        return joeHeight;
     }
 }
