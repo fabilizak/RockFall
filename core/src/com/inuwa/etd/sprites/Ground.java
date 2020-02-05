@@ -18,4 +18,8 @@ public class Ground {
     public TextureRegion getTexture() {
         return groundTexReg;
     }
+
+    public void dispose(){
+        groundTex.dispose();
+    }
 }

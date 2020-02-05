@@ -118,6 +118,11 @@ public class GameState extends State {
     @Override
     public void dispose() {
         moveButtons.dispose();
+        joe.dispose();
+        for(Rock rock : rockList){
+            rock.dispose();
+        }
+        ground.dispose();
     }
 
     public void generateRock(){
@@ -155,16 +160,20 @@ public class GameState extends State {
                     joe.setPosition((rockBounds.x + rockFromList.getRockWidth()), oldJoePos.y);
                     joe.setXVelocity(0);
                 }
+                else
                 if ((oldJoePos.x + joe.getJoeWidth()) <= rockBounds.x && oldJoePos.y < (rockBounds.y + rockFromList.getRockHeight())){
                     joe.setPosition((rockBounds.x - joe.getJoeWidth()), oldJoePos.y);
                     joe.setXVelocity(0);
-                }
-
+                } else
                 if (oldJoePos.y >= (rockBounds.y + rockFromList.getRockHeight())){
                     joe.setYPosition(rockBounds.y + rockFromList.getRockHeight());
                     joe.setCanJump(true);
                     joe.setCanMove(true);
+                } else {
+                    stateManager.set(new GameState(stateManager));
+                    dispose();
                 }
+
             }
         }
     }

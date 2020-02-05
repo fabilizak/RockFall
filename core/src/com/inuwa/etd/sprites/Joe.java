@@ -164,4 +164,8 @@ public class Joe {
     public float getJoeHeight() {
         return joeHeight;
     }
+
+    public void dispose(){
+        joe.dispose();
+    }
 }

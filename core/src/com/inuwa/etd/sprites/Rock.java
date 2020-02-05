@@ -96,4 +96,11 @@ public class Rock {
     public Rectangle getBounds() {
         return bounds;
     }
+
+    public void dispose(){
+        rock1.dispose();
+        rock2.dispose();
+        rock3.dispose();
+        myRockTexture.dispose();
+    }
 }
