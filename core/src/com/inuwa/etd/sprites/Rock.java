@@ -42,7 +42,7 @@ public class Rock {
     }
 
     public void update(float deltaTime){
-        velocity.add(0, Joe.GRAVITY, 0);
+        velocity.add(0, Joe.GRAVITY/2, 0);
         velocity.scl(deltaTime);
         rockPos.add(0, velocity.y, 0);
         bounds.setPosition(rockPos.x, rockPos.y);

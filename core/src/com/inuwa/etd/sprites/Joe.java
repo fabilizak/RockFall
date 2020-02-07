@@ -15,14 +15,14 @@ public class Joe {
     private Vector3 position;
     private Vector3 velocity;
     private Texture joe;
-    private boolean canJump = true, canMove = true, wouldCollide = false;
-    public float speed = 500;
+    private boolean canJump = true, canMove = true;
+    public float speed = 300;
     private Ground ground;
     private static int posGroundTop;
     private Rectangle bounds;
 
     public Joe(OrthographicCamera camera){
-        joeWidth = camera.viewportWidth/7;
+        joeWidth = camera.viewportWidth/9;
         joeHeight = (joeWidth + joeWidth/4);
         position = new Vector3((camera.viewportWidth/2 - joeWidth/2), posGroundTop, 0);
         bounds = new Rectangle(position.x, position.y, joeWidth, joeHeight);
@@ -91,7 +91,7 @@ public class Joe {
     public void jumpLeft(){
         if (canJump){
             velocity.y = 350;
-            velocity.x = -100;
+            velocity.x = -40;
             canJump = false;
             canMove = false;
         }
@@ -100,7 +100,7 @@ public class Joe {
     public void jumpRight(){
         if (canJump){
             velocity.y = 350;
-            velocity.x = 100;
+            velocity.x = 40;
             canJump = false;
             canMove = false;
         }

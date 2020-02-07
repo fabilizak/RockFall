@@ -8,29 +8,29 @@ import com.badlogic.gdx.math.Vector3;
 import com.inuwa.etd.EscapeTheDungeon;
 import com.inuwa.etd.sprites.Button;
 
-public class StartState extends State {
+public class EndState extends State {
 
-    private Button playBtn;
+    private Button restartBtn;
+    private Texture restartBtnTex;
+    private TextureRegion restartBtnTexReg;
     private int btnWidth = Gdx.graphics.getWidth()/5;
     private int btnHeight = Gdx.graphics.getHeight()/15;
-    private Texture playBtnTex;
-    private TextureRegion playBtnTexReg;
     private Vector3 touchPos;
 
-    public StartState(StateManager stateManager) {
+    public EndState(StateManager stateManager){
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        playBtnTex = new Texture("playBtn.png");
-        playBtnTexReg = new TextureRegion(playBtnTex, playBtnTex.getWidth(), playBtnTex.getHeight());
-        playBtn = new Button(camera.position.x - btnWidth/2, camera.position.y,"menu", playBtnTexReg, playBtnTexReg);
+        restartBtnTex = new Texture("restartBtn.png");
+        restartBtnTexReg = new TextureRegion(restartBtnTex,restartBtnTex.getWidth(), restartBtnTex.getHeight());
+        restartBtn = new Button(camera.position.x - btnWidth/2, camera.position.y,"menu", restartBtnTexReg, restartBtnTexReg);
     }
 
     @Override
-    public void handleInput() {
+    protected void handleInput() {
         if (Gdx.input.justTouched()){
             touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
-            if (playBtn.isPresssed(touchPos.x, touchPos.y)) {
+            if (restartBtn.isPresssed(touchPos.x, touchPos.y)) {
                 stateManager.set(new GameState(stateManager));
                 dispose();
             }
@@ -47,12 +47,12 @@ public class StartState extends State {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
         spriteBatch.draw(EscapeTheDungeon.background.getBackground(), 0, camera.position.y - camera.viewportHeight/2, camera.viewportWidth, camera.viewportHeight);
-        playBtn.draw(spriteBatch);
+        restartBtn.draw(spriteBatch);
         spriteBatch.end();
     }
 
     @Override
     public void dispose() {
-        playBtnTex.dispose();
+        restartBtnTex.dispose();
     }
 }

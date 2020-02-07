@@ -41,7 +41,7 @@ public class GameState extends State {
     //private TextureRegion darkLJB;
     //private TextureRegion darkRJB;
 
-    protected GameState(StateManager stateManager) {
+    public GameState(StateManager stateManager) {
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         joe = new Joe(camera);
@@ -96,6 +96,7 @@ public class GameState extends State {
         }
         if (currentRock.isTouchedGround())
             generateRock();
+        checkNextLevel(joe);
     }
 
     @Override
@@ -144,18 +145,12 @@ public class GameState extends State {
         Rectangle joeBounds = joe.getBounds();
         for (Rock rockFromList : rockList){
             Rectangle rockBounds = rockFromList.getBounds();
-            /*if (joeBounds.overlaps(rockBounds)){
-                if (joeBounds.x == (rockBounds.x + rockFromList.getRockWidth()) || (joeBounds.x + Joe.JOE_WIDTH) == rockBounds.x) {
-                    joe.setPosition(oldJoePos);
-                    joe.setXVelocity(0);
-                }
-                if (joeBounds.y == (rockBounds.y + rockFromList.getRockHeight()))
-                    joe.setYPosition(rockBounds.y + rockFromList.getRockHeight());
-            }*/
-            /*if (joeBounds.y < (rockBounds.y + rockFromList.getRockHeight()) && joeBounds.x >= (rockBounds.x - Joe.JOE_WIDTH/2)
-                    && joeBounds.x <= (rockBounds.x + Joe.JOE_WIDTH/2))
-                joe.setYPosition(rockBounds.y + rockFromList.getRockHeight());*/
             if (joeBounds.overlaps(rockBounds)){
+                if (oldJoePos.y >= (rockBounds.y + rockFromList.getRockHeight())) {
+                    joe.setYPosition(rockBounds.y + rockFromList.getRockHeight());
+                    joe.setCanJump(true);
+                    joe.setCanMove(true);
+                } else
                 if (oldJoePos.x >= (rockBounds.x + rockFromList.getRockWidth()) && oldJoePos.y < (rockBounds.y + rockFromList.getRockHeight())) {
                     joe.setPosition((rockBounds.x + rockFromList.getRockWidth()), oldJoePos.y);
                     joe.setXVelocity(0);
@@ -164,17 +159,17 @@ public class GameState extends State {
                 if ((oldJoePos.x + joe.getJoeWidth()) <= rockBounds.x && oldJoePos.y < (rockBounds.y + rockFromList.getRockHeight())){
                     joe.setPosition((rockBounds.x - joe.getJoeWidth()), oldJoePos.y);
                     joe.setXVelocity(0);
-                } else
-                if (oldJoePos.y >= (rockBounds.y + rockFromList.getRockHeight())){
-                    joe.setYPosition(rockBounds.y + rockFromList.getRockHeight());
-                    joe.setCanJump(true);
-                    joe.setCanMove(true);
                 } else {
-                    stateManager.set(new GameState(stateManager));
+                    stateManager.set(new EndState(stateManager));
                     dispose();
                 }
 
             }
         }
+    }
+
+    private void checkNextLevel(Joe joe){
+        if (joe.getBounds().y + joe.getJoeHeight() >= camera.viewportHeight)
+            stateManager.set(new GameState(stateManager));
     }
 }
