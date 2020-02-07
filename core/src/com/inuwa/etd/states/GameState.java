@@ -150,6 +150,7 @@ public class GameState extends State {
                     joe.setYPosition(rockBounds.y + rockFromList.getRockHeight());
                     joe.setCanJump(true);
                     joe.setCanMove(true);
+                    joe.setYVelocity(0);
                 } else
                 if (oldJoePos.x >= (rockBounds.x + rockFromList.getRockWidth()) && oldJoePos.y < (rockBounds.y + rockFromList.getRockHeight())) {
                     joe.setPosition((rockBounds.x + rockFromList.getRockWidth()), oldJoePos.y);
@@ -161,9 +162,7 @@ public class GameState extends State {
                     joe.setXVelocity(0);
                 } else {
                     stateManager.set(new EndState(stateManager));
-                    dispose();
                 }
-
             }
         }
     }

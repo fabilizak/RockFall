@@ -32,7 +32,6 @@ public class EndState extends State {
             camera.unproject(touchPos);
             if (restartBtn.isPresssed(touchPos.x, touchPos.y)) {
                 stateManager.set(new GameState(stateManager));
-                dispose();
             }
         }
     }

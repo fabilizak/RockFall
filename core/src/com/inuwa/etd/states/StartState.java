@@ -32,7 +32,6 @@ public class StartState extends State {
             camera.unproject(touchPos);
             if (playBtn.isPresssed(touchPos.x, touchPos.y)) {
                 stateManager.set(new GameState(stateManager));
-                dispose();
             }
         }
     }
