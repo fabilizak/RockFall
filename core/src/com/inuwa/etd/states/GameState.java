@@ -1,6 +1,8 @@
 package com.inuwa.etd.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -35,29 +37,30 @@ public class GameState extends State {
     private List<Rock> rockList;
     private Rock currentRock;
     private Vector3 oldJoePos;
-    //private Texture darkMoveButtons;
-    //private TextureRegion darkLB;
-    //private TextureRegion darkRB;
-    //private TextureRegion darkLJB;
-    //private TextureRegion darkRJB;
+
+    private Music gameMusic;
+    private Sound joeDies;
 
     public GameState(StateManager stateManager) {
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("gameMusic.mp3"));
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(0.1f);
+        gameMusic.play();
+
+        joeDies = Gdx.audio.newSound(Gdx.files.internal("death.ogg"));
+
         joe = new Joe(camera);
         oldJoePos = new Vector3();
         oldJoePos.set(joe.getPosition());
         ground = new Ground();
         moveButtons = new Texture("moveButtons.png");
-        //darkMoveButtons = new Texture("darkMoveButtons.png");
         leftBtnTex = new TextureRegion(moveButtons, 0, 0, 32, 32);
         rightBtnTex = new TextureRegion(moveButtons, 33, 0, 32, 32);
         leftJumpBtnTex = new TextureRegion(moveButtons, 0, 33, 32, 32);
         rightJumpBtnTex = new TextureRegion(moveButtons, 33, 33, 32, 32);
-        //darkLB = new TextureRegion(darkMoveButtons, 0, 0, 32, 32);
-        //darkRB = new TextureRegion(darkMoveButtons, 33, 0, 32, 32);
-        //darkLJB = new TextureRegion(darkMoveButtons, 0, 33, 32, 32);
-        //darkRJB = new TextureRegion(darkMoveButtons, 33, 33, 32, 32);
         leftButton = new Button(10,10,"game", leftBtnTex, leftBtnTex);
         rightButton = new Button((camera.viewportWidth - moveBtnWidth) - 10,10,"game", rightBtnTex, rightBtnTex);
         leftJumpButton = new Button( 10, 10 + moveBtnHeight + 10,"game", leftJumpBtnTex, leftJumpBtnTex);
@@ -124,6 +127,8 @@ public class GameState extends State {
             rock.dispose();
         }
         ground.dispose();
+        gameMusic.dispose();
+        joeDies.dispose();
     }
 
     public void generateRock(){
@@ -161,6 +166,8 @@ public class GameState extends State {
                     joe.setPosition((rockBounds.x - joe.getJoeWidth()), oldJoePos.y);
                     joe.setXVelocity(0);
                 } else {
+                    gameMusic.stop();
+                    joeDies.play(0.5f);
                     stateManager.set(new EndState(stateManager));
                 }
             }

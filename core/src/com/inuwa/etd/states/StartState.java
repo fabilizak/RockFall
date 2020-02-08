@@ -1,6 +1,8 @@
 package com.inuwa.etd.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,12 +19,22 @@ public class StartState extends State {
     private TextureRegion playBtnTexReg;
     private Vector3 touchPos;
 
+    private Music menuMusic;
+    private Sound buttonSound;
+
     public StartState(StateManager stateManager) {
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         playBtnTex = new Texture("playBtn.png");
         playBtnTexReg = new TextureRegion(playBtnTex, playBtnTex.getWidth(), playBtnTex.getHeight());
         playBtn = new Button(camera.position.x - btnWidth/2, camera.position.y,"menu", playBtnTexReg, playBtnTexReg);
+
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("menuMusic.wav"));
+        menuMusic.setLooping(true);
+        menuMusic.setVolume(0.1f);
+        menuMusic.play();
+
+        buttonSound = Gdx.audio.newSound(Gdx.files.internal("button.wav"));
     }
 
     @Override
@@ -31,6 +43,8 @@ public class StartState extends State {
             touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
             if (playBtn.isPresssed(touchPos.x, touchPos.y)) {
+                menuMusic.stop();
+                buttonSound.play(0.5f);
                 stateManager.set(new GameState(stateManager));
             }
         }
@@ -53,5 +67,7 @@ public class StartState extends State {
     @Override
     public void dispose() {
         playBtnTex.dispose();
+        menuMusic.dispose();
+        buttonSound.dispose();
     }
 }

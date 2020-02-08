@@ -1,6 +1,7 @@
 package com.inuwa.etd.sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -31,6 +32,8 @@ public class Joe {
     private float joeStateTimer;
     private TextureRegion currentFrame;
 
+    private Sound jumpSound;
+
     public Joe(OrthographicCamera camera){
         joeWidth = camera.viewportWidth/9;
         joeHeight = (joeWidth + joeWidth/4);
@@ -53,6 +56,8 @@ public class Joe {
         joeStand = new TextureRegion(joe, 0, 0, 13, joe.getHeight());
         joeJump = new TextureRegion(joe, 13, 0, 13, joe.getHeight());
         currentFrame = joeStand;
+
+        jumpSound = Gdx.audio.newSound(Gdx.files.internal("jump.ogg"));
     }
 
     public void update(float deltaTime){
@@ -140,13 +145,15 @@ public class Joe {
     }
 
     public void moveLeft(){
-        if (canMove)
+        if (canMove) {
             velocity.x += -speed;
+        }
     }
 
     public void moveRight(){
-        if (canMove)
+        if (canMove) {
             velocity.x += speed;
+        }
     }
 
     public void jumpLeft(){
@@ -155,6 +162,7 @@ public class Joe {
             velocity.x = -40;
             canJump = false;
             canMove = false;
+            jumpSound.play(0.5f);
         }
     }
 
@@ -164,6 +172,7 @@ public class Joe {
             velocity.x = 40;
             canJump = false;
             canMove = false;
+            jumpSound.play(0.5f);
         }
     }
 
@@ -232,5 +241,6 @@ public class Joe {
 
     public void dispose(){
         joe.dispose();
+        jumpSound.dispose();
     }
 }
