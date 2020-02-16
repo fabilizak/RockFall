@@ -149,6 +149,7 @@ public class GameState extends State {
         ground.dispose();
         gameMusic.dispose();
         joeDies.dispose();
+        textFont.dispose();
     }
 
     public void generateRock(){
@@ -188,7 +189,7 @@ public class GameState extends State {
                 } else {
                     gameMusic.stop();
                     joeDies.play(0.5f);
-                    stateManager.set(new EndState(stateManager));
+                    stateManager.set(new EndState(stateManager, score));
                 }
             }
         }
