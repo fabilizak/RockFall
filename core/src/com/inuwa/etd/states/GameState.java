@@ -195,7 +195,7 @@ public class GameState extends State {
     }
 
     private void checkNextLevel(Joe joe){
-        if (joe.getBounds().y + joe.getJoeHeight() >= camera.viewportHeight/2){
+        if (joe.getBounds().y + joe.getJoeHeight() >= camera.viewportHeight){
             level++;
             levelLabel = "LEVEL: " + level;
             joe.setYPosition(Joe.getPosGroundTop());
