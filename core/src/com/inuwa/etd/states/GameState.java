@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -16,7 +17,6 @@ import com.inuwa.etd.sprites.Rock;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class GameState extends State {
 
@@ -41,9 +41,14 @@ public class GameState extends State {
     private Music gameMusic;
     private Sound joeDies;
 
+    private int level, levelBonus, score;
+    private String scoreLabel, levelLabel, highScoreLabel;
+    private BitmapFont textFont;
+
     public GameState(StateManager stateManager) {
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        System.out.println(camera.viewportWidth + " " + camera.viewportHeight);
 
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("gameMusic.mp3"));
         gameMusic.setLooping(true);
@@ -67,6 +72,14 @@ public class GameState extends State {
         rightJumpButton = new Button((camera.viewportWidth - moveBtnWidth) - 10, 10 + moveBtnHeight + 10,"game", rightJumpBtnTex, rightJumpBtnTex);
         rockList = new ArrayList<>();
         generateRock();
+
+        score = 0;
+        level = 1;
+        levelBonus = 0;
+        scoreLabel = "SCORE: 0";
+        levelLabel = "LEVEL: 1";
+        highScoreLabel = "HIGH: 0";
+        textFont = new BitmapFont(Gdx.files.internal("font.fnt"), Gdx.files.internal("font.png"), false);
     }
 
     @Override
@@ -100,6 +113,8 @@ public class GameState extends State {
         if (currentRock.isTouchedGround())
             generateRock();
         checkNextLevel(joe);
+
+        updateScore(joe);
     }
 
     @Override
@@ -116,6 +131,11 @@ public class GameState extends State {
         rightJumpButton.draw(spriteBatch);
         for (Rock rock : rockList)
             spriteBatch.draw(rock.getRockTexture(), rock.getRockPos().x, rock.getRockPos().y, rock.getRockWidth(), rock.getRockHeight());
+        textFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        textFont.getData().setScale(3);
+        textFont.draw(spriteBatch, levelLabel, moveBtnWidth + 30, Joe.getPosGroundTop() - 30);
+        textFont.draw(spriteBatch, scoreLabel, moveBtnWidth + 30, Joe.getPosGroundTop() - 70);
+        textFont.draw(spriteBatch, highScoreLabel, moveBtnWidth + 30, Joe.getPosGroundTop() - 110);
         spriteBatch.end();
     }
 
@@ -175,7 +195,22 @@ public class GameState extends State {
     }
 
     private void checkNextLevel(Joe joe){
-        if (joe.getBounds().y + joe.getJoeHeight() >= camera.viewportHeight)
-            stateManager.set(new GameState(stateManager));
+        if (joe.getBounds().y + joe.getJoeHeight() >= camera.viewportHeight/2){
+            level++;
+            levelLabel = "LEVEL: " + level;
+            joe.setYPosition(Joe.getPosGroundTop());
+            levelBonus += 500;
+            for(Rock rock : rockList)
+                rock.dispose();
+            rockList.clear();
+            generateRock();
+        }
+    }
+
+    private void updateScore(Joe joe){
+        if (score < joe.getPosition().y - Joe.getPosGroundTop() + levelBonus) {
+            score =(int)(joe.getPosition().y - Joe.getPosGroundTop() + levelBonus);
+            scoreLabel = "SCORE: " + score;
+        }
     }
 }
