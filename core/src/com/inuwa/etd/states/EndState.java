@@ -15,13 +15,10 @@ import com.inuwa.etd.sprites.Button;
 public class EndState extends State {
 
     private Button restartBtn;
-    private Texture restartBtnTex;
-    private TextureRegion restartBtnTexReg;
     private Button menuBtn;
-    private Texture menuBtnTex;
-    private TextureRegion menuBtnTexReg;
-    private int btnWidth = Gdx.graphics.getWidth()/5;
-    private int btnHeight = Gdx.graphics.getHeight()/15;
+    private Texture menuBtns;
+    private TextureRegion restartBtnTex;
+    private TextureRegion menuBtnTex;
     private Vector3 touchPos;
 
     private Music endMusic;
@@ -36,13 +33,12 @@ public class EndState extends State {
     public EndState(StateManager stateManager, int score){
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        restartBtnTex = new Texture("restartBtn.png");
-        restartBtnTexReg = new TextureRegion(restartBtnTex, restartBtnTex.getWidth(), restartBtnTex.getHeight());
-        restartBtn = new Button(camera.position.x - btnWidth/2, camera.position.y - btnHeight,"menu", restartBtnTexReg, restartBtnTexReg);
+        menuBtns = new Texture("menuBtns.png");
+        restartBtnTex = new TextureRegion(menuBtns, 0, 16, 20, 15);
+        restartBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4,"menu", restartBtnTex, restartBtnTex);
 
-        menuBtnTex = new Texture("menuBtn.png");
-        menuBtnTexReg = new TextureRegion(menuBtnTex, menuBtnTex.getWidth(), menuBtnTex.getHeight());
-        menuBtn = new Button(camera.position.x - btnWidth/2, camera.position.y - 2 * btnHeight - 30,"menu", menuBtnTexReg, menuBtnTexReg);
+        menuBtnTex = new TextureRegion(menuBtns, 21, 16, 20, 15);
+        menuBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4 - Button.MENU_BUTTON_HEIGHT - 30,"menu", menuBtnTex, menuBtnTex);
 
         endMusic = Gdx.audio.newMusic(Gdx.files.internal("endMusic.mp3"));
         endMusic.setLooping(false);
@@ -110,7 +106,7 @@ public class EndState extends State {
 
     @Override
     public void dispose() {
-        restartBtnTex.dispose();
+        menuBtns.dispose();
         endMusic.dispose();
         buttonSound.dispose();
         textFont.dispose();

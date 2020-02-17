@@ -13,10 +13,10 @@ import com.inuwa.etd.sprites.Button;
 public class StartState extends State {
 
     private Button playBtn;
-    private int btnWidth = Gdx.graphics.getWidth()/5;
-    private int btnHeight = Gdx.graphics.getHeight()/15;
-    private Texture playBtnTex;
-    private TextureRegion playBtnTexReg;
+    private Button exitBtn;
+    private Texture menuBtns;
+    private TextureRegion playBtnTex;
+    private TextureRegion exitBtnTex;
     private Vector3 touchPos;
 
     private Music menuMusic;
@@ -25,9 +25,11 @@ public class StartState extends State {
     public StartState(StateManager stateManager) {
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        playBtnTex = new Texture("playBtn.png");
-        playBtnTexReg = new TextureRegion(playBtnTex, playBtnTex.getWidth(), playBtnTex.getHeight());
-        playBtn = new Button(camera.position.x - btnWidth/2, camera.position.y,"menu", playBtnTexReg, playBtnTexReg);
+        menuBtns = new Texture("menuBtns.png");
+        playBtnTex = new TextureRegion(menuBtns, 0, 0, 20, 15);
+        playBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4,"menu", playBtnTex, playBtnTex);
+        exitBtnTex = new TextureRegion(menuBtns, 21, 0, 20, 15);
+        exitBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4 - Button.MENU_BUTTON_HEIGHT - 30,"menu", exitBtnTex, exitBtnTex);
 
         menuMusic = Gdx.audio.newMusic(Gdx.files.internal("menuMusic.wav"));
         menuMusic.setLooping(true);
@@ -47,6 +49,12 @@ public class StartState extends State {
                 buttonSound.play(0.5f);
                 stateManager.set(new GameState(stateManager));
             }
+
+            if (exitBtn.isPresssed(touchPos.x, touchPos.y)){
+                menuMusic.stop();
+                buttonSound.play(0.5f);
+                System.exit(0);
+            }
         }
     }
 
@@ -61,12 +69,15 @@ public class StartState extends State {
         spriteBatch.begin();
         spriteBatch.draw(EscapeTheDungeon.background.getBackground(), 0, camera.position.y - camera.viewportHeight/2, camera.viewportWidth, camera.viewportHeight);
         playBtn.draw(spriteBatch);
+        exitBtn.draw(spriteBatch);
         spriteBatch.end();
     }
 
     @Override
     public void dispose() {
-        playBtnTex.dispose();
+        //playBtnTex.dispose();
+        //exitBtnTex.dispose();
+        menuBtns.dispose();
         menuMusic.dispose();
         buttonSound.dispose();
     }
