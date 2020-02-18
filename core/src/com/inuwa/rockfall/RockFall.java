@@ -1,12 +1,12 @@
-package com.inuwa.etd;
+package com.inuwa.rockfall;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.inuwa.etd.sprites.Background;
-import com.inuwa.etd.states.StartState;
-import com.inuwa.etd.states.StateManager;
+import com.inuwa.rockfall.sprites.Background;
+import com.inuwa.rockfall.states.StartState;
+import com.inuwa.rockfall.states.StateManager;
 
 
 public class EscapeTheDungeon extends ApplicationAdapter {
