@@ -1,4 +1,4 @@
-package com.inuwa.etd.states;
+package com.inuwa.rockfall.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
-import com.inuwa.etd.EscapeTheDungeon;
-import com.inuwa.etd.sprites.Button;
+import com.inuwa.rockfall.RockFall;
+import com.inuwa.rockfall.sprites.Button;
 
 public class StartState extends State {
 
@@ -18,6 +18,8 @@ public class StartState extends State {
     private TextureRegion playBtnTex;
     private TextureRegion exitBtnTex;
     private Vector3 touchPos;
+    private Texture title;
+    private float titleWidth, titleHeight;
 
     private Music menuMusic;
     private Sound buttonSound;
@@ -26,6 +28,9 @@ public class StartState extends State {
         super(stateManager);
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         menuBtns = new Texture("menuBtns.png");
+        title = new Texture("title.png");
+        titleWidth = camera.viewportWidth * 8/10;
+        titleHeight = camera.viewportHeight/3;
         playBtnTex = new TextureRegion(menuBtns, 0, 0, 20, 15);
         playBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4,"menu", playBtnTex, playBtnTex);
         exitBtnTex = new TextureRegion(menuBtns, 21, 0, 20, 15);
@@ -67,7 +72,8 @@ public class StartState extends State {
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
-        spriteBatch.draw(EscapeTheDungeon.background.getBackground(), 0, camera.position.y - camera.viewportHeight/2, camera.viewportWidth, camera.viewportHeight);
+        spriteBatch.draw(RockFall.background.getBackground(), 0, camera.position.y - camera.viewportHeight/2, camera.viewportWidth, camera.viewportHeight);
+        spriteBatch.draw(title, camera.viewportWidth/2 - titleWidth/2, camera.viewportHeight * 3/4 - titleHeight/2, titleWidth, titleHeight);
         playBtn.draw(spriteBatch);
         exitBtn.draw(spriteBatch);
         spriteBatch.end();

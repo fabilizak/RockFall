@@ -9,7 +9,7 @@ import com.inuwa.rockfall.states.StartState;
 import com.inuwa.rockfall.states.StateManager;
 
 
-public class EscapeTheDungeon extends ApplicationAdapter {
+public class RockFall extends ApplicationAdapter {
 
     public SpriteBatch spriteBatch;
     private StateManager stateManager;

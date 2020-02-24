@@ -1,4 +1,4 @@
-package com.inuwa.etd.states;
+package com.inuwa.rockfall.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
-import com.inuwa.etd.EscapeTheDungeon;
-import com.inuwa.etd.sprites.Button;
+import com.inuwa.rockfall.RockFall;
+import com.inuwa.rockfall.sprites.Button;
 
 public class EndState extends State {
 
@@ -81,7 +81,7 @@ public class EndState extends State {
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
-        spriteBatch.draw(EscapeTheDungeon.background.getBackground(), 0, camera.position.y - camera.viewportHeight/2, camera.viewportWidth, camera.viewportHeight);
+        spriteBatch.draw(RockFall.background.getBackground(), 0, camera.position.y - camera.viewportHeight/2, camera.viewportWidth, camera.viewportHeight);
         restartBtn.draw(spriteBatch);
         menuBtn.draw(spriteBatch);
         textFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);

@@ -1,4 +1,4 @@
-package com.inuwa.etd.sprites;
+package com.inuwa.rockfall.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;

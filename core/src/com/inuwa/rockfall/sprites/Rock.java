@@ -1,4 +1,4 @@
-package com.inuwa.etd.sprites;
+package com.inuwa.rockfall.sprites;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;

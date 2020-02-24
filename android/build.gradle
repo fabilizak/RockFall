@@ -17,7 +17,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "com.inuwa.etd"
+        applicationId "com.inuwa.rockfall"
         minSdkVersion 9
         targetSdkVersion 29
         versionCode 1
@@ -86,5 +86,5 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.inuwa.etd/com.inuwa.etd.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.inuwa.rockfall/com.inuwa.rockfall.AndroidLauncher'
 }
