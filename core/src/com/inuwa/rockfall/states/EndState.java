@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.inuwa.rockfall.HighScoreManager;
 import com.inuwa.rockfall.RockFall;
 import com.inuwa.rockfall.sprites.Button;
 
@@ -29,6 +30,7 @@ public class EndState extends State {
     private BitmapFont textFont;
     private float textWidth;
     private GlyphLayout glyphLayout;
+    private HighScoreManager hsm;
 
     public EndState(StateManager stateManager, int score){
         super(stateManager);
@@ -52,6 +54,9 @@ public class EndState extends State {
         scoreLabel = "Your final score:";
         textFont = new BitmapFont(Gdx.files.internal("font.fnt"), Gdx.files.internal("font.png"), false);
         glyphLayout = new GlyphLayout();
+
+        hsm = new HighScoreManager();
+        hsm.updateHighScore("Johnny3", score);
     }
 
     @Override
