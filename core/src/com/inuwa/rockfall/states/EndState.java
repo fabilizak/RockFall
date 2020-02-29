@@ -120,7 +120,17 @@ public class EndState extends State implements Input.TextInputListener {
 
     @Override
     public void input(String playerName) {
-        hsm.updateHighScore(playerName, playerScore);
+        StringBuilder str = new StringBuilder(playerName);
+        String name;
+        if (str.length() > 7) {
+            str.setLength(7);
+            name = str.toString();
+            name = name + "...";
+        } else
+            name = playerName;
+        if (name.isEmpty())
+            name = "Player";
+        hsm.updateHighScore(name, playerScore);
     }
 
     @Override
