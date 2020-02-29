@@ -1,6 +1,7 @@
 package com.inuwa.rockfall.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,7 +14,7 @@ import com.inuwa.rockfall.HighScoreManager;
 import com.inuwa.rockfall.RockFall;
 import com.inuwa.rockfall.sprites.Button;
 
-public class EndState extends State {
+public class EndState extends State implements Input.TextInputListener {
 
     private Button restartBtn;
     private Button menuBtn;
@@ -56,7 +57,7 @@ public class EndState extends State {
         glyphLayout = new GlyphLayout();
 
         hsm = new HighScoreManager();
-        hsm.updateHighScore("Johnny3", score);
+        Gdx.input.getTextInput(this, "Enter your name:", "", "Player");
     }
 
     @Override
@@ -115,5 +116,15 @@ public class EndState extends State {
         endMusic.dispose();
         buttonSound.dispose();
         textFont.dispose();
+    }
+
+    @Override
+    public void input(String playerName) {
+        hsm.updateHighScore(playerName, playerScore);
+    }
+
+    @Override
+    public void canceled() {
+        return;
     }
 }
