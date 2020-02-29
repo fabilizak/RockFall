@@ -43,7 +43,10 @@ public class HighScoreManager {
     }
 
     public void updateHighScore(String playerName, int score){
-        highScores.put(playerName, score);
+        if (highScores.get(playerName) == null || score > highScores.get(playerName))
+            highScores.put(playerName, score);
+        else
+            return;
         highScores = sortByScores(highScores);
         json = gson.toJson(highScores, mapType);
         file.writeString(json, false);

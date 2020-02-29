@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.inuwa.rockfall.HighScoreManager;
 import com.inuwa.rockfall.RockFall;
 import com.inuwa.rockfall.sprites.Button;
 import com.inuwa.rockfall.sprites.Ground;
@@ -17,6 +18,7 @@ import com.inuwa.rockfall.sprites.Rock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GameState extends State {
 
@@ -41,9 +43,10 @@ public class GameState extends State {
     private Music gameMusic;
     private Sound joeDies;
 
-    private int level, levelBonus, score;
+    private int level, levelBonus, score, highScore;
     private String scoreLabel, levelLabel, highScoreLabel;
     private BitmapFont textFont;
+    private HighScoreManager hsm;
 
     public GameState(StateManager stateManager) {
         super(stateManager);
@@ -78,8 +81,13 @@ public class GameState extends State {
         levelBonus = 0;
         scoreLabel = "SCORE: 0";
         levelLabel = "LEVEL: 1";
-        highScoreLabel = "HIGH: 0";
         textFont = new BitmapFont(Gdx.files.internal("font.fnt"), Gdx.files.internal("font.png"), false);
+        hsm = new HighScoreManager();
+        if (hsm.getHighScores() == null)
+            highScore = 0;
+        else
+            highScore = (int)hsm.getHighScores().values().toArray()[0];
+        highScoreLabel = "HIGH: " + highScore;
     }
 
     @Override
@@ -212,6 +220,8 @@ public class GameState extends State {
         if (score < joe.getPosition().y - Joe.getPosGroundTop() + levelBonus) {
             score =(int)(joe.getPosition().y - Joe.getPosGroundTop() + levelBonus);
             scoreLabel = "SCORE: " + score;
+            if (score > highScore)
+                highScoreLabel = "HIGH: " + score;
         }
     }
 }

@@ -29,6 +29,7 @@ public class ScoreboardState extends State {
     private float hsTextWidth, hsTextHeight;
     private String hsText;
     private int placement;
+    private boolean noHighscores;
 
     public ScoreboardState(StateManager stateManager){
         super(stateManager);
@@ -40,7 +41,12 @@ public class ScoreboardState extends State {
         buttonSound = Gdx.audio.newSound(Gdx.files.internal("button.wav"));
 
         hsm = new HighScoreManager();
-        highScores = hsm.getHighScores();
+        if (hsm.getHighScores() == null)
+            noHighscores = true;
+        else {
+            highScores = hsm.getHighScores();
+            noHighscores = false;
+        }
         textFont = new BitmapFont(Gdx.files.internal("font.fnt"), Gdx.files.internal("font.png"), false);
         glyphLayout = new GlyphLayout();
 
@@ -79,16 +85,23 @@ public class ScoreboardState extends State {
         textFont.draw(spriteBatch, hsText, camera.viewportWidth/2 - hsTextWidth/2, camera.viewportHeight - 30);
 
         textFont.getData().setScale(5);
+        if (noHighscores == true){
+            textFont.draw(spriteBatch, "No highscores yet", 10, camera.viewportHeight/2);
+        } else
+            drawScores(spriteBatch);
+        spriteBatch.end();
+    }
+
+    public void drawScores(SpriteBatch spriteBatch) {
         scoreY = camera.viewportHeight - hsTextHeight - 70;
         placement = 1;
         for (Map.Entry<String, Integer> entry : highScores.entrySet()) {
-            textFont.draw(spriteBatch, "" + placement + ": "+ entry.getKey() + "     " + entry.getValue(), 10, scoreY);
+            textFont.draw(spriteBatch, "" + placement + ": " + entry.getKey() + "     " + entry.getValue(), 10, scoreY);
             scoreY -= 70;
             placement++;
         }
         scoreY = camera.viewportHeight - hsTextHeight - 70;
         placement = 1;
-        spriteBatch.end();
     }
 
     @Override
