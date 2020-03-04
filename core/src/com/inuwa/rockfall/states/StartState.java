@@ -34,11 +34,11 @@ public class StartState extends State {
         titleWidth = camera.viewportWidth * 8/10;
         titleHeight = camera.viewportHeight/3;
         playBtnTex = new TextureRegion(menuBtns, 0, 0, 20, 15);
-        playBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4,"menu", playBtnTex, playBtnTex);
+        playBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4,"menu", playBtnTex);
         scoreBtnTex = new TextureRegion(menuBtns, 42, 0, 20, 15);
-        scoreBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4 - Button.MENU_BUTTON_HEIGHT - 30,"menu", scoreBtnTex, scoreBtnTex);
+        scoreBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4 - Button.MENU_BUTTON_HEIGHT - 30,"menu", scoreBtnTex);
         exitBtnTex = new TextureRegion(menuBtns, 21, 0, 20, 15);
-        exitBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4 - 2 * Button.MENU_BUTTON_HEIGHT - 60,"menu", exitBtnTex, exitBtnTex);
+        exitBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4 - 2 * Button.MENU_BUTTON_HEIGHT - 60,"menu", exitBtnTex);
 
         menuMusic = Gdx.audio.newMusic(Gdx.files.internal("menuMusic.wav"));
         menuMusic.setLooping(true);
@@ -52,18 +52,18 @@ public class StartState extends State {
         if (Gdx.input.justTouched()){
             touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
-            if (playBtn.isPresssed(touchPos.x, touchPos.y)) {
+            if (playBtn.isPressed(touchPos.x, touchPos.y)) {
                 menuMusic.stop();
                 buttonSound.play(0.5f);
                 stateManager.set(new GameState(stateManager));
             }
 
-            if (scoreBtn.isPresssed(touchPos.x, touchPos.y)){
+            if (scoreBtn.isPressed(touchPos.x, touchPos.y)){
                 buttonSound.play(0.5f);
                 stateManager.set(new ScoreboardState(stateManager));
             }
 
-            if (exitBtn.isPresssed(touchPos.x, touchPos.y)){
+            if (exitBtn.isPressed(touchPos.x, touchPos.y)){
                 menuMusic.stop();
                 buttonSound.play(0.5f);
                 System.exit(0);

@@ -36,7 +36,7 @@ public class ScoreboardState extends State {
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         menuBtns = new Texture("menuBtns.png");
         returnBtnTex = new TextureRegion(menuBtns, 42, 16, 20, 15);
-        returnBtn = new Button(10, 10,"menu", returnBtnTex, returnBtnTex);
+        returnBtn = new Button(10, 10,"menu", returnBtnTex);
 
         buttonSound = Gdx.audio.newSound(Gdx.files.internal("button.wav"));
 
@@ -58,7 +58,7 @@ public class ScoreboardState extends State {
         if (Gdx.input.justTouched()) {
             touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
-            if (returnBtn.isPresssed(touchPos.x, touchPos.y)) {
+            if (returnBtn.isPressed(touchPos.x, touchPos.y)) {
                 buttonSound.play(0.5f);
                 stateManager.set(new StartState(stateManager));
             }

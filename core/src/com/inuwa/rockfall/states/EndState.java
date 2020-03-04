@@ -38,10 +38,10 @@ public class EndState extends State implements Input.TextInputListener {
         camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         menuBtns = new Texture("menuBtns.png");
         restartBtnTex = new TextureRegion(menuBtns, 0, 16, 20, 15);
-        restartBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4,"menu", restartBtnTex, restartBtnTex);
+        restartBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4,"menu", restartBtnTex);
 
         menuBtnTex = new TextureRegion(menuBtns, 21, 16, 20, 15);
-        menuBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4 - Button.MENU_BUTTON_HEIGHT - 30,"menu", menuBtnTex, menuBtnTex);
+        menuBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4 - Button.MENU_BUTTON_HEIGHT - 30,"menu", menuBtnTex);
 
         endMusic = Gdx.audio.newMusic(Gdx.files.internal("endMusic.mp3"));
         endMusic.setLooping(false);
@@ -65,12 +65,12 @@ public class EndState extends State implements Input.TextInputListener {
         if (Gdx.input.justTouched()){
             touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
-            if (restartBtn.isPresssed(touchPos.x, touchPos.y)) {
+            if (restartBtn.isPressed(touchPos.x, touchPos.y)) {
                 endMusic.stop();
                 buttonSound.play(0.5f);
                 stateManager.set(new GameState(stateManager));
             }
-            if (menuBtn.isPresssed(touchPos.x, touchPos.y)){
+            if (menuBtn.isPressed(touchPos.x, touchPos.y)){
                 endMusic.stop();
                 buttonSound.play(0.5f);
                 stateManager.set(new StartState(stateManager));

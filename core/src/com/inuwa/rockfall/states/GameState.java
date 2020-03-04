@@ -18,7 +18,6 @@ import com.inuwa.rockfall.sprites.Rock;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class GameState extends State {
 
@@ -69,10 +68,10 @@ public class GameState extends State {
         rightBtnTex = new TextureRegion(moveButtons, 33, 0, 32, 32);
         leftJumpBtnTex = new TextureRegion(moveButtons, 0, 33, 32, 32);
         rightJumpBtnTex = new TextureRegion(moveButtons, 33, 33, 32, 32);
-        leftButton = new Button(10,10,"game", leftBtnTex, leftBtnTex);
-        rightButton = new Button((camera.viewportWidth - moveBtnWidth) - 10,10,"game", rightBtnTex, rightBtnTex);
-        leftJumpButton = new Button( 10, 10 + moveBtnHeight + 10,"game", leftJumpBtnTex, leftJumpBtnTex);
-        rightJumpButton = new Button((camera.viewportWidth - moveBtnWidth) - 10, 10 + moveBtnHeight + 10,"game", rightJumpBtnTex, rightJumpBtnTex);
+        leftButton = new Button(10,10,"game", leftBtnTex);
+        rightButton = new Button((camera.viewportWidth - moveBtnWidth) - 10,10,"game", rightBtnTex);
+        leftJumpButton = new Button( 10, 10 + moveBtnHeight + 10,"game", leftJumpBtnTex);
+        rightJumpButton = new Button((camera.viewportWidth - moveBtnWidth) - 10, 10 + moveBtnHeight + 10,"game", rightJumpBtnTex);
         rockList = new ArrayList<>();
         generateRock();
 
@@ -95,13 +94,13 @@ public class GameState extends State {
         if (Gdx.input.isTouched()){
             touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
-            if (leftButton.isPresssed(touchPos.x, touchPos.y))
+            if (leftButton.isPressed(touchPos.x, touchPos.y))
                 joe.move("left");
-            if (rightButton.isPresssed(touchPos.x, touchPos.y))
+            if (rightButton.isPressed(touchPos.x, touchPos.y))
                 joe.move("right");
-            if (leftJumpButton.isPresssed(touchPos.x, touchPos.y))
+            if (leftJumpButton.isPressed(touchPos.x, touchPos.y))
                 joe.move("upLeft");
-            if (rightJumpButton.isPresssed(touchPos.x, touchPos.y))
+            if (rightJumpButton.isPressed(touchPos.x, touchPos.y))
                 joe.move("upRight");
         }
     }
@@ -208,7 +207,7 @@ public class GameState extends State {
             level++;
             levelLabel = "LEVEL: " + level;
             joe.setYPosition(Joe.getPosGroundTop());
-            levelBonus += 500;
+            levelBonus += 1000;
             for(Rock rock : rockList)
                 rock.dispose();
             rockList.clear();

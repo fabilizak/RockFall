@@ -198,11 +198,6 @@ public class Joe {
         return bounds;
     }
 
-    public void setPosition(Vector3 position) {
-        this.position = position;
-        this.bounds.setPosition(position.x, position.y);
-    }
-
     public void setPosition(float x, float y){
         this.position.x = x;
         this.position.y = y;
