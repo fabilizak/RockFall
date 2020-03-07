@@ -158,7 +158,7 @@ public class Joe {
 
     public void jumpLeft(){
         if (canJump){
-            velocity.y = 350;
+            velocity.y = 400;
             velocity.x = -40;
             canJump = false;
             canMove = false;
@@ -168,7 +168,7 @@ public class Joe {
 
     public void jumpRight(){
         if (canJump){
-            velocity.y = 350;
+            velocity.y = 400;
             velocity.x = 40;
             canJump = false;
             canMove = false;

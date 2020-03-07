@@ -30,6 +30,7 @@ public class ScoreboardState extends State {
     private String hsText;
     private int placement;
     private boolean noHighscores;
+    private float noScoreWidth;
 
     public ScoreboardState(StateManager stateManager){
         super(stateManager);
@@ -85,8 +86,10 @@ public class ScoreboardState extends State {
         textFont.draw(spriteBatch, hsText, camera.viewportWidth/2 - hsTextWidth/2, camera.viewportHeight - 30);
 
         textFont.getData().setScale(5);
+        glyphLayout.setText(textFont, "No highscores yet");
+        noScoreWidth = glyphLayout.width;
         if (noHighscores == true){
-            textFont.draw(spriteBatch, "No highscores yet", 10, camera.viewportHeight/2);
+            textFont.draw(spriteBatch, "No highscores yet", camera.viewportWidth/2 - noScoreWidth/2, camera.viewportHeight/2);
         } else
             drawScores(spriteBatch);
         spriteBatch.end();
