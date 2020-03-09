@@ -35,7 +35,7 @@ public class EndState extends State implements Input.TextInputListener {
 
     public EndState(StateManager stateManager, int score){
         super(stateManager);
-        camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        camera.setToOrtho(false, RockFall.GAMESCREENWIDTH, RockFall.GAMESCREENHEIGHT);
         menuBtns = new Texture("menuBtns.png");
         restartBtnTex = new TextureRegion(menuBtns, 0, 16, 20, 15);
         restartBtn = new Button(camera.position.x - Button.MENU_BUTTON_WIDTH/2, camera.position.y * 3/4,"menu", restartBtnTex);

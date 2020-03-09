@@ -14,6 +14,8 @@ public class RockFall extends ApplicationAdapter {
     public SpriteBatch spriteBatch;
     private StateManager stateManager;
     public static Background background;
+    public static final int GAMESCREENWIDTH = 540;
+    public static final int GAMESCREENHEIGHT = 1087;
 
     @Override
     public void create () {

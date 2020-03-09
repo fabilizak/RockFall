@@ -28,7 +28,7 @@ public class StartState extends State {
 
     public StartState(StateManager stateManager) {
         super(stateManager);
-        camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        camera.setToOrtho(false, RockFall.GAMESCREENWIDTH, RockFall.GAMESCREENHEIGHT);
         menuBtns = new Texture("menuBtns.png");
         title = new Texture("title.png");
         titleWidth = camera.viewportWidth * 8/10;

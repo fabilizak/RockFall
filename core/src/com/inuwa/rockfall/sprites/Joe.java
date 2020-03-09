@@ -21,9 +21,9 @@ public class Joe {
     private Vector3 velocity;
     private Texture joe;
     private boolean canJump = true, canMove = true;
-    public float speed = 300;
+    public float speed;
     private Ground ground;
-    private static int posGroundTop;
+    private static float posGroundTop;
     private Rectangle bounds;
     private Animation<TextureRegion> joeWalk;
     private TextureRegion joeStand;
@@ -31,10 +31,11 @@ public class Joe {
     private boolean walkingLeft;
     private float joeStateTimer;
     private TextureRegion currentFrame;
-
     private Sound jumpSound;
+    private OrthographicCamera camera;
 
     public Joe(OrthographicCamera camera){
+        this.camera = camera;
         joeWidth = camera.viewportWidth/9;
         joeHeight = (joeWidth + joeWidth/4);
         position = new Vector3((camera.viewportWidth/2 - joeWidth/2), posGroundTop, 0);
@@ -58,6 +59,7 @@ public class Joe {
         currentFrame = joeStand;
 
         jumpSound = Gdx.audio.newSound(Gdx.files.internal("jump.ogg"));
+        speed = camera.viewportWidth/1.8f;
     }
 
     public void update(float deltaTime){
@@ -158,8 +160,8 @@ public class Joe {
 
     public void jumpLeft(){
         if (canJump){
-            velocity.y = 400;
-            velocity.x = -40;
+            velocity.y = camera.viewportHeight/2.5f;
+            velocity.x = -camera.viewportWidth/13;
             canJump = false;
             canMove = false;
             jumpSound.play(0.5f);
@@ -168,8 +170,8 @@ public class Joe {
 
     public void jumpRight(){
         if (canJump){
-            velocity.y = 400;
-            velocity.x = 40;
+            velocity.y = camera.viewportHeight/2.5f;
+            velocity.x = camera.viewportWidth/13;
             canJump = false;
             canMove = false;
             jumpSound.play(0.5f);
@@ -184,13 +186,13 @@ public class Joe {
     }
 
     private void checkRightBounds(){
-        if(position.x > Gdx.graphics.getWidth()/2 - joeWidth) {
-            position.x = Gdx.graphics.getWidth() / 2 - joeWidth;
+        if(position.x > camera.viewportWidth - joeWidth) {
+            position.x = camera.viewportWidth - joeWidth;
             bounds.x = position.x;
         }
     }
 
-    public static int getPosGroundTop() {
+    public static float getPosGroundTop() {
         return posGroundTop;
     }
 

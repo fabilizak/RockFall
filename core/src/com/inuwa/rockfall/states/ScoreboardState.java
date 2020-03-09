@@ -34,7 +34,7 @@ public class ScoreboardState extends State {
 
     public ScoreboardState(StateManager stateManager){
         super(stateManager);
-        camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        camera.setToOrtho(false, RockFall.GAMESCREENWIDTH, RockFall.GAMESCREENHEIGHT);
         menuBtns = new Texture("menuBtns.png");
         returnBtnTex = new TextureRegion(menuBtns, 42, 16, 20, 15);
         returnBtn = new Button(10, 10,"menu", returnBtnTex);

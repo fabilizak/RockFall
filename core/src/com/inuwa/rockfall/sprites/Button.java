@@ -1,18 +1,18 @@
 package com.inuwa.rockfall.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.inuwa.rockfall.RockFall;
 
 public class Button {
     private float x, y, width, height;
     private TextureRegion buttonTex;
     private Rectangle bounds;
-    public static final int MENU_BUTTON_WIDTH = Gdx.graphics.getWidth()/5;
-    public static final int MENU_BUTTON_HEIGHT = Gdx.graphics.getHeight()/15;
-    public static final int GAME_BUTTON_WIDTH = Gdx.graphics.getWidth()/15;
-    public static final int GAME_BUTTON_HEIGHT = Gdx.graphics.getHeight()/25;
+    public static final float MENU_BUTTON_WIDTH = RockFall.GAMESCREENWIDTH/2.5f;
+    public static final float MENU_BUTTON_HEIGHT = RockFall.GAMESCREENHEIGHT/7.5f;
+    public static final float GAME_BUTTON_WIDTH = RockFall.GAMESCREENWIDTH/7.5f;
+    public static final float GAME_BUTTON_HEIGHT = RockFall.GAMESCREENHEIGHT/12.5f;
 
     public Button(float x, float y, String btnType, TextureRegion buttonTex) {
         this.x = x;

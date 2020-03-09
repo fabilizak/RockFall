@@ -45,12 +45,12 @@ public class Rock {
         velocity.add(0, Joe.GRAVITY/2, 0);
         velocity.scl(deltaTime);
         rockPos.add(0, velocity.y, 0);
-        bounds.setPosition(rockPos.x, rockPos.y);
         if (rockPos.y <= Joe.getPosGroundTop()){
             rockPos.y = Joe.getPosGroundTop();
             bounds.setPosition(rockPos.x, rockPos.y);
             touchedGround = true;
         }
+        bounds.setPosition(rockPos.x, rockPos.y);
         velocity.scl(1/deltaTime);
     }
 
@@ -89,7 +89,7 @@ public class Rock {
         return myRockTexture;
     }
 
-    public boolean isTouchedGround() {
+    public boolean touchedGround() {
         return touchedGround;
     }
 
