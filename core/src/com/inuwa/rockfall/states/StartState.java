@@ -93,5 +93,7 @@ public class StartState extends State {
         menuBtns.dispose();
         menuMusic.dispose();
         buttonSound.dispose();
+        title.dispose();
+        menuBtns.dispose();
     }
 }

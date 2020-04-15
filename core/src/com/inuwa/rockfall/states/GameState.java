@@ -32,8 +32,8 @@ public class GameState extends State {
     private TextureRegion pauseBtnTex;
     private TextureRegion blackPixelTex;
     private Sprite blackPixel;
-    private static float moveBtnWidth = RockFall.GAMESCREENWIDTH/7.5f;
-    private static float moveBtnHeight = RockFall.GAMESCREENHEIGHT/12.4f;
+    private static float moveBtnWidth = Button.GAME_BUTTON_WIDTH;
+    private static float moveBtnHeight = Button.GAME_BUTTON_HEIGHT;
     private Button leftButton;
     private Button rightButton;
     private Button leftJumpButton;

@@ -9,14 +9,17 @@ public abstract class State {
     protected Vector3 pointer;
     protected StateManager stateManager;
 
-    protected State(StateManager stateManager){
+    protected State(StateManager stateManager) {
         this.stateManager = stateManager;
         camera = new OrthographicCamera();
         pointer = new Vector3();
     }
 
     protected abstract void handleInput();
+
     public abstract void update(float deltaTime);
+
     public abstract void render(SpriteBatch spriteBatch);
+
     public abstract void dispose();
 }

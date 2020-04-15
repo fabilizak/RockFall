@@ -111,5 +111,6 @@ public class ScoreboardState extends State {
     public void dispose() {
         menuBtns.dispose();
         buttonSound.dispose();
+        textFont.dispose();
     }
 }
