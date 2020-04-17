@@ -20,12 +20,12 @@ public class HighScoreManager {
     private String json;
     private Type mapType;
     private FileHandle file;
-    private String rootPath;
+    //private String rootPath;
 
     public HighScoreManager(){
         gson = new Gson();
         mapType = new TypeToken<Map<String,Integer>>(){}.getType();
-        rootPath = Gdx.files.getLocalStoragePath();
+        //rootPath = Gdx.files.getLocalStoragePath();
         file = Gdx.files.local("scores.json");
         if (!file.exists()){
             try {
@@ -54,7 +54,7 @@ public class HighScoreManager {
 
     public Map getHighScores(){
         highScores = gson.fromJson(file.readString(), mapType);
-        System.out.println(file.readString());
+        //System.out.println(file.readString());
         return highScores;
     }
 
